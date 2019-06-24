@@ -13,13 +13,12 @@ module.exports = {
     contentBase: './dist',
     host: '0.0.0.0',
     hot: true,
-    sockHost: '0.0.0.0',
-    hotOnly: true
+    sockHost: '0.0.0.0'
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Development'
+      template: './index.html'
     }),
     new webpack.HotModuleReplacementPlugin()
   ],
@@ -30,6 +29,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      },
       {
         test: /\.css$/,
         use: [
@@ -44,5 +48,11 @@ module.exports = {
         ]
       }
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
   }
 };

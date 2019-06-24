@@ -1,31 +1,24 @@
-import _ from 'lodash';
-import './style.css';
-import Icon from './icon.png';
-import printMe from './print';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 
-function component() {
-  const element = document.createElement('div');
-  const btn = document.createElement('button');
+import Main from './components/main';
 
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-  element.classList.add('hello');
-
-  btn.innerHTML = 'Click me and check the console!';
-  btn.onclick = printMe;
-
-  const myIcon = new Image();
-  myIcon.src = Icon;
-  element.appendChild(myIcon);
-  element.appendChild(btn);
-  
-  return element;
+function renderComponent() {
+  ReactDOM.render(
+    <AppContainer>
+      <Main />
+    </AppContainer>,
+    document.getElementById('root')
+  );
 }
 
-document.body.appendChild(component());
+renderComponent();
 
 if (module.hot) {
-  module.hot.accept('./print', function(){
-    console.log('Accepting the updated printMe module!');
-    printMe();
+  module.hot.accept('./components/main', () => {
+    // eslint-disable-next-line no-console
+    console.log('Accepting the updated Main module!');
+    renderComponent();
   });
 }
