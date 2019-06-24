@@ -1,26 +1,28 @@
+const _ = require('lodash');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const WebappWebpackPlugin = require('webapp-webpack-plugin');
+
 const webpack = require('webpack');
 
-module.exports = {
-  mode: 'development',
+const mode = _(process.env).get('NODE_ENV', 'development');
+
+const config = {
+  mode,
   entry: {
     app: './src/index.js'
   },
   devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist',
-    host: '0.0.0.0',
-    hot: true,
-    sockHost: '0.0.0.0'
-  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new WebappWebpackPlugin({
+      logo: './7399-cat-face.png'
+    })
   ],
   output: {
     filename: '[name].bundle.js',
@@ -50,9 +52,20 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
-    alias: {
-      'react-dom': '@hot-loader/react-dom'
-    }
+    extensions: ['.js', '.jsx']
   }
 };
+
+if (_(['development']).includes(mode)) {
+  _.set(config, 'resolve.alias.react-dom', '@hot-loader/react-dom');
+  _.extend(config, {
+    devServer: {
+      contentBase: './dist',
+      host: '0.0.0.0',
+      hot: true,
+      sockHost: '0.0.0.0'
+    }
+  });
+}
+
+module.exports = config;
