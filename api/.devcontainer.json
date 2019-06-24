@@ -1,11 +1,11 @@
 // See https://aka.ms/vscode-remote/devcontainer.json for format details.
 { 
 	"dockerComposeFile": [
-    "./compose/docker-compose.yml",
-    "./compose/docker-compose.dev.yml"
+    "../compose/docker-compose.yml",
+    "../compose/docker-compose.dev.yml"
   ],
-  "service": "app",
-  "workspaceFolder": "/app",
+  "service": "api",
+  "workspaceFolder": "/api",
   "extensions": [
     "dbaeumer.vscode-eslint"
   ]

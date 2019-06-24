@@ -3,4 +3,6 @@ services:
   app:
     build:
       context: ../app
-      dockerfile: ../Dockerfile
+  api:
+    build:
+      context: ../api
